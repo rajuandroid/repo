@@ -1,0 +1,33 @@
+import java.io.File;
+
+import android.os.Environment;
+
+public class AndroidUtils {
+
+
+    public static String getFullPath(String fileName) {
+        try {
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/" + MyApplication.getAppContext().getPackageName().toString();
+            String file = fileName;
+
+            // Current state of the external media
+            String extState = Environment.getExternalStorageState();
+
+            // External media can be written onto
+            if (extState.equals(Environment.MEDIA_MOUNTED)) {
+                // Make sure the path exists
+                boolean exists = (new File(path)).exists();
+                if (!exists) {
+                    new File(path).mkdirs();
+                }
+
+            } else {
+                return null;
+            }
+            return path + "/" + file;
+        } catch (Exception ioe) {
+            ioe.printStackTrace();
+            return null;
+        }
+    }
+}
